@@ -73,9 +73,9 @@ public abstract class SaveMyTripDatabase extends RoomDatabase {
 
                 // Creates a ContentValues that represents an User
                 ContentValues contentValues = new ContentValues();
-                contentValues.put("mId", 1);
-                contentValues.put("mUserName", "Yann");
-                contentValues.put("mUrlPicture", "https://www.facebook.com/photo.php?fbid=10200824962847073&set=a.1371171520021&type=3&theater");
+                contentValues.put("id", 1);
+                contentValues.put("userName", "Yann");
+                contentValues.put("urlPicture", "https://api.adorable.io/AVATARS/512/20.png");
 
                 // Creates an User in the "User" database
                 db.insert("User", OnConflictStrategy.IGNORE, contentValues);

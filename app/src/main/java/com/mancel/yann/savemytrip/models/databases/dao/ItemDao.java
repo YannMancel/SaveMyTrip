@@ -21,20 +21,20 @@ public interface ItemDao {
     // CREATE **************************************************************************************
 
     @Insert
-    long insertItem(Item item);
+    long insertItem(final Item item);
 
     // READ ****************************************************************************************
 
     @Query("SELECT * FROM Item WHERE userId = :userId")
-    LiveData<List<Item>> getItems(long userId);
+    LiveData<List<Item>> getItems(final long userId);
 
     // UPDATE **************************************************************************************
 
     @Update
-    int updateItem(Item item);
+    int updateItem(final Item item);
 
     // DELETE **************************************************************************************
 
     @Query("DELETE FROM Item WHERE id = :itemId")
-    int deleteItem(long itemId);
+    int deleteItem(final long itemId);
 }

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.mancel.yann.savemytrip.R;
 import com.mancel.yann.savemytrip.models.utils.StorageUtils;
+import com.mancel.yann.savemytrip.views.activities.BaseActivity;
 
 import java.io.File;
 

@@ -26,7 +26,7 @@ import static org.junit.Assert.assertTrue;
  * Name of the package: com.mancel.yann.savemytrip
  */
 @RunWith(AndroidJUnit4.class)
-public class ItemDaoTest {
+public class DaoTest {
 
     // FIELDS --------------------------------------------------------------------------------------
 
@@ -46,7 +46,6 @@ public class ItemDaoTest {
 
     @Before
     public void initDatabase() throws Exception {
-        // Initializes the database field
         this.mDatabase = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(),
                                                       SaveMyTripDatabase.class)
                              .allowMainThreadQueries()
@@ -55,11 +54,10 @@ public class ItemDaoTest {
 
     @After
     public void closeDatabase() throws Exception {
-        // Closes the database field
         this.mDatabase.close();
     }
 
-    // USER TESTS **********************************************************************************
+    // -- USER TESTS --
 
     @Test
     public void insertAndGetUser() throws InterruptedException {
@@ -73,7 +71,7 @@ public class ItemDaoTest {
         assertTrue(user.getUserName().equals(USER_DEMO.getUserName()) && user.getId() == USER_ID);
     }
 
-    // ITEM TESTS **********************************************************************************
+    // -- ITEM TESTS --
 
     @Test
     public void getItemsWhenNoItemInserted() throws InterruptedException {

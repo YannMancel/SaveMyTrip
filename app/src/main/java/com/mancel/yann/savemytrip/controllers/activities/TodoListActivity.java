@@ -1,5 +1,6 @@
 package com.mancel.yann.savemytrip.controllers.activities;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ArrayAdapter;
@@ -8,8 +9,16 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.mancel.yann.savemytrip.R;
+import com.mancel.yann.savemytrip.injections.Injection;
+import com.mancel.yann.savemytrip.injections.ViewModelFactory;
 import com.mancel.yann.savemytrip.models.pojos.Item;
+import com.mancel.yann.savemytrip.models.pojos.User;
+import com.mancel.yann.savemytrip.utils.ItemClickSupport;
+import com.mancel.yann.savemytrip.viewModels.ItemViewModel;
+import com.mancel.yann.savemytrip.views.activities.BaseActivity;
 import com.mancel.yann.savemytrip.views.recyclerViews.ItemAdapter;
 
 import java.util.List;
@@ -34,8 +43,10 @@ public class TodoListActivity extends BaseActivity implements ItemAdapter.Listen
     @BindView(R.id.todo_list_activity_header_profile_image) ImageView mProfileImage;
     @BindView(R.id.todo_list_activity_header_profile_text) TextView mProfileText;
 
-    private List<Item> mItemList;
-    private ItemAdapter mItemAdapter;
+    private ItemAdapter mAdapter;
+    private ItemViewModel mItemViewModel;
+
+    private static int USER_ID = 1;
 
     // METHODS -------------------------------------------------------------------------------------
 
@@ -46,53 +57,114 @@ public class TodoListActivity extends BaseActivity implements ItemAdapter.Listen
 
     @Override
     protected void configureDesign() {
-        // Configures the ToolBar field
         this.configureToolBar();
-
-        // Configures the Spinner field
         this.configureSpinner();
-
-        // Configures the RecyclerView field
         this.configureRecyclerView();
+        this.configureViewModel();
+        this.getCurrentUser(USER_ID);
+        this.getItems(USER_ID);
     }
 
     // LISTENER INTERFACE OF ITEM ADAPTER **********************************************************
 
     @Override
-    public void onClickDeleteButton(int position) {}
+    public void onClickDeleteButton(int position) {
+        this.deleteItem(this.mAdapter.getItem(position));
+    }
 
-    // ACTIONS *************************************************************************************
+    // -- ACTIONS --
 
     @OnClick(R.id.todo_list_activity_button_add)
-    public void onClickAddButton() { /*TODO*/ }
+    public void onClickAddButton() {
+        this.createItem();
+    }
 
-    // SPINNER *************************************************************************************
+    // -- SPINNER --
 
     /**
      * Configures the {@link Spinner}
      */
     private void configureSpinner() {
-        // Creates an ArrayAdapter<CharSequence> object
+        // ADAPTER
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.category_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // Updates the Spinner field
+        // SPINNER
         this.mSpinner.setAdapter(adapter);
     }
 
-    // RECYCLER VIEW *******************************************************************************
+    // -- RECYCLER VIEW --
 
     /**
      * Configures the {@link RecyclerView}
      */
     private void configureRecyclerView() {
-        // Initializes the ItemAdapter
-        this.mItemAdapter = new ItemAdapter(this);
+        // ADAPTER
+        this.mAdapter = new ItemAdapter(this);
 
-        // Attaches the adapter to the RecyclerView to populate items
-        this.mRecyclerView.setAdapter(this.mItemAdapter);
-
-        // Sets layout manager to position the items
+        // RECYCLER VIEW
+        this.mRecyclerView.setAdapter(this.mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        ItemClickSupport.addTo(this.mRecyclerView, R.layout.activity_todo_list_item)
+                        .setOnItemClickListener((recyclerView1, position, v) -> this.updateItem(this.mAdapter.getItem(position)));
+    }
+
+    // -- VIEW MODEL --
+
+    /**
+     * Configures the {@link android.arch.lifecycle.ViewModel}
+     */
+    private void configureViewModel() {
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
+
+        this.mItemViewModel = ViewModelProviders.of(this, viewModelFactory)
+                                                .get(ItemViewModel.class);
+
+        this.mItemViewModel.init(USER_ID);
+    }
+
+    // -- USERS --
+
+    private void getCurrentUser(final long userId) {
+        this.mItemViewModel.getUser(userId).observe(this, this::updateHeader);
+    }
+
+    // -- ITEMS --
+
+    private void getItems(final long userId) {
+        this.mItemViewModel.getItems(userId).observe(this, this::updateItemsList);
+    }
+
+    private void createItem(){
+        Item item = new Item(this.mEditText.getText().toString(),
+                             this.mSpinner.getSelectedItemPosition(),
+                             USER_ID);
+        this.mEditText.setText("");
+        this.mItemViewModel.createItem(item);
+    }
+
+    private void deleteItem(Item item){
+        this.mItemViewModel.deleteItem(item.getId());
+    }
+
+    private void updateItem(Item item){
+        item.setSelected(!item.getSelected());
+        this.mItemViewModel.updateItem(item);
+    }
+
+    // -- UI --
+
+    private void updateHeader(User user){
+        this.mProfileText.setText(user.getUserName());
+
+        Glide.with(this)
+             .load(user.getUrlPicture())
+             .apply(RequestOptions.circleCropTransform())
+             .into(this.mProfileImage);
+    }
+
+    private void updateItemsList(List<Item> items){
+        this.mAdapter.updateData(items);
     }
 }

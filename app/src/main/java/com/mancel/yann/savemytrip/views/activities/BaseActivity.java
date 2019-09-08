@@ -1,4 +1,4 @@
-package com.mancel.yann.savemytrip.controllers.activities;
+package com.mancel.yann.savemytrip.views.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;

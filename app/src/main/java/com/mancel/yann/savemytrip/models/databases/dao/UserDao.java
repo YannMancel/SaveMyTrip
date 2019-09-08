@@ -19,10 +19,10 @@ public interface UserDao {
     // CREATE **************************************************************************************
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long createUser(User user);
+    long createUser(final User user);
 
     // READ ****************************************************************************************
 
     @Query("SELECT * FROM User WHERE id = :userId")
-    LiveData<User> getUser(long userId);
+    LiveData<User> getUser(final long userId);
 }
