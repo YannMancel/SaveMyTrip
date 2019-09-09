@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context="com.mancel.yann.savemytrip.controllers.activities.TodoListActivity">
+    tools:context="com.mancel.yann.savemytrip.views.activities.TodoListActivity">
 
     <!-- HEADER -->
     <LinearLayout

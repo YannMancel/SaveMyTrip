@@ -1,4 +1,4 @@
-package com.mancel.yann.savemytrip.controllers.activities;
+package com.mancel.yann.savemytrip.views.activities;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +18,6 @@ import com.mancel.yann.savemytrip.models.pojos.Item;
 import com.mancel.yann.savemytrip.models.pojos.User;
 import com.mancel.yann.savemytrip.utils.ItemClickSupport;
 import com.mancel.yann.savemytrip.viewModels.ItemViewModel;
-import com.mancel.yann.savemytrip.views.activities.BaseActivity;
 import com.mancel.yann.savemytrip.views.recyclerViews.ItemAdapter;
 
 import java.util.List;

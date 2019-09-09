@@ -1,4 +1,4 @@
-package com.mancel.yann.savemytrip.controllers.activities;
+package com.mancel.yann.savemytrip.views.activities;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.mancel.yann.savemytrip.R;
 import com.mancel.yann.savemytrip.models.utils.StorageUtils;
-import com.mancel.yann.savemytrip.views.activities.BaseActivity;
 
 import java.io.File;
 

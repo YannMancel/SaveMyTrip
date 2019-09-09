@@ -29,11 +29,11 @@
         </activity>
 
         <activity
-            android:name=".controllers.activities.TodoListActivity"
+            android:name=".views.activities.TodoListActivity"
             android:parentActivityName=".views.activities.MainActivity" />
 
         <activity
-            android:name=".controllers.activities.TripBookActivity"
+            android:name=".views.activities.TripBookActivity"
             android:parentActivityName=".views.activities.MainActivity" />
 
         <!-- FileProvider ********************************************************************** -->

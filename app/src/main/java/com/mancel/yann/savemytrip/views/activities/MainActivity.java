@@ -3,8 +3,6 @@ package com.mancel.yann.savemytrip.views.activities;
 import android.content.Intent;
 
 import com.mancel.yann.savemytrip.R;
-import com.mancel.yann.savemytrip.controllers.activities.TodoListActivity;
-import com.mancel.yann.savemytrip.controllers.activities.TripBookActivity;
 
 import butterknife.OnClick;
 

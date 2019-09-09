@@ -27,11 +27,6 @@ public class Item {
 
     /**
      * Initializes an Item object
-     */
-    public Item() {}
-
-    /**
-     * Initializes an Item object
      * @param text a String object that contains the text
      * @param category an integer that contains the category type
      * @param userId an long integer that contains the user Id
